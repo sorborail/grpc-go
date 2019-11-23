@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package calculator;
+
+option go_package = "calculatorpb";
+
+message Values {
+    int32 first_value = 1;
+    int32 second_value = 2;
+}
+
+message SumRequest {
+    Values values = 1;
+}
+
+message SumResponse {
+    int32 result = 1;
+}
+
+message NumberDecompositionRequest {
+    int32 value = 1;
+}
+
+message NumberDecompositionResponse {
+    int32 value = 1;
+}
+
+message AverageCalcRequest {
+    int32 value = 1;
+}
+
+message AverageCalcResponse {
+    double value = 1;
+}
+
+message NumberEveryoneRequest {
+    int32 number = 1;
+}
+
+message NumberEveryoneResponse {
+    int32 result = 1;
+}
+
+message SquareRootRequest {
+    int32 number = 1;
+}
+
+message SquareRootResponse {
+    double number_root = 1;
+}
+
+service CalculatorService{
+    // Unary
+    rpc Calculate(SumRequest) returns (SumResponse) {};
+
+    // Server stream
+    rpc CalculateNumberDecomposition(NumberDecompositionRequest) returns (stream NumberDecompositionResponse) {}
+
+    // Client stream
+    rpc AverageCalc(stream AverageCalcRequest) returns (AverageCalcResponse) {};
+
+    // BiDi Streaming
+    rpc NumberEveryone(stream NumberEveryoneRequest) returns (stream NumberEveryoneResponse) {};
+
+    // Error handling INVALID_ARGUMENT
+    rpc SquareRoot(SquareRootRequest) returns (SquareRootResponse) {}
+}
